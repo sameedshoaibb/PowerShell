@@ -1,0 +1,84 @@
+
+#Download the content from the Dropbox and save the file to a specific folder
+$url="https://www.dropbox.com/s/s8asnka24xz5qjd/file.txt?dl=1"
+$output="D:\file.txt"
+$start_time = Get-Date
+Import-Module BitsTransfer
+Start-BitsTransfer -source $url -destination $output
+
+#Read the data from the file from the specific path
+$test= Get-Content  -Path $output
+$hostna=HOSTNAME.EXE
+
+foreach ($server in $test){
+if($server -eq $hostna)
+{
+Write-Output "Performing the activity"
+$output_file_path="C:\Users\saad\Desktop\dropbox\output\out.txt"
+$srvName = "WebClient"
+$servicePrior = Get-Service $srvName
+"$srvName is now " + $servicePrior.status
+Add-Content $output_file_path "Before the activity $(Get-Date -Format G)"
+Set-Service $srvName -startuptype manual
+Stop-Service $srvName
+Add-Content $output_file_path "Service has been restarted $(Get-Date -Format G)"
+$serviceAfter = Get-Service $srvName
+Add-Content $output_file_path "After the activity $(Get-Date -Format G)"
+"$srvName is now " + $serviceAfter.status
+
+}
+else{
+Write-Output "shit"
+}
+}
+
+Write-Output "Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)"
+
+Tester script $vari="8.8.8.8"
+$srvName="WebClient"
+if(Test-Connection -ComputerName $vari -Count 1 -ErrorAction SilentlyContinue)
+{
+Write-Host "Server is up" -ForegroundColor green
+Read-Host -Prompt "Press any key to continue or CTRL+C to quit"
+}
+elseif(-not(Test-Connection -ComputerName $vari -Count 1 -ErrorAction SilentlyContinue)){
+Write-Host "Internet is not working" -ForegroundColor red
+
+Read-Host -Prompt "Press any key to continue or CTRL+C to quit"
+
+}
+elseif(Test-Connection -ComputerName $vari -Count 1 -ErrorAction SilentlyContinue){
+Write-Host "Internet is now working" -ForegroundColor green
+
+}
+else{
+throw 'SERVER IS NOT PINGABLE'
+}
+
+if(Test-Connection -ComputerName $vari -Count 1 -ErrorAction SilentlyContinue){
+Write-host "Now workiing fine"}
+else{
+Write-Host "Still not working"
+}
+Write-Host 'Continuing script regardless if file exists or not...'
+
+
+
+
+if (-not (Test-Path -Path D:\fisle.txt)) {
+   throw 'The file does not exist'
+} else {
+   Write-Host 'The file does exist'
+}
+Write-Host 'Continuing script regardless if file exists or not...'
+
+
+$output_file_path="C:\Users\saad\Desktop\dropbox\output\out.txt"
+$srvName = "WebClient"
+$servicePrior = Get-Service $srvName
+"$srvName is now " + $servicePrior.status
+Set-Service $srvName -startuptype manual
+Restart-Service $srvName
+Add-Content $output_file_path "Service has been restarted $(Get-Date -Format G)"
+$serviceAfter = Get-Service $srvName
+"$srvName is now " + $serviceAfter.status
